@@ -1,4 +1,4 @@
-## Cellular Automatata
+## Cellular Automatata ._.
 
 https://bendeguz06.github.io/cellular-automatata
 
