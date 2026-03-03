@@ -1,6 +1,6 @@
 ## Cellular Automatata
 
-https://bendeguz06.github.io/cellular-automation
+https://bendeguz06.github.io/cellular-automatata
 
 # Installation
 
