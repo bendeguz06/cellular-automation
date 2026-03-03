@@ -182,7 +182,12 @@ export function App() {
   const handleCanvasMouseMove = (e: React.MouseEvent<HTMLCanvasElement>) => {
     if (!isDrawingRef.current) return;
     const coords = getCellCoords(e);
-    if (coords && (!lastCellRef.current || lastCellRef.current[0] !== coords[0] || lastCellRef.current[1] !== coords[1])) {
+    if (
+      coords &&
+      (!lastCellRef.current ||
+        lastCellRef.current[0] !== coords[0] ||
+        lastCellRef.current[1] !== coords[1])
+    ) {
       toggleCell(coords[0], coords[1]);
       lastCellRef.current = coords;
     }
@@ -230,7 +235,7 @@ export function App() {
   };
 
   const handleFpsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = Math.max(1, Math.min(60, parseInt(e.target.value) || 1));
+    const value = Math.max(1, Math.min(300, parseInt(e.target.value) || 1));
     setFps(value);
   };
 
