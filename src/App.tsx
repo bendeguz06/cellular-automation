@@ -17,10 +17,11 @@ export function App() {
       .map(() => Array(cols).fill(0)),
   );
   const historyRef = useRef<number[][][]>([]);
+  const isDrawingRef = useRef(false);
+  const lastCellRef = useRef<[number, number] | null>(null);
 
   const [isRunning, setIsRunning] = useState(false);
   const [fps, setFps] = useState(10);
-  const [isDrawing, setIsDrawing] = useState(false);
   const [isErasing, setIsErasing] = useState(false);
 
   // Calculate effective cell size based on grid dimensions, canvas size, and zoom
@@ -161,27 +162,35 @@ export function App() {
     const col = Math.floor((x - finalOffsetX) / cellSize);
     const row = Math.floor((y - finalOffsetY) / cellSize);
 
+    if (row < 0 || row >= rows || col < 0 || col >= cols) {
+      return null;
+    }
+
     return [row, col];
   };
 
   const handleCanvasMouseDown = (e: React.MouseEvent<HTMLCanvasElement>) => {
-    setIsDrawing(true);
+    isDrawingRef.current = true;
+    lastCellRef.current = null;
     const coords = getCellCoords(e);
     if (coords) {
       toggleCell(coords[0], coords[1]);
+      lastCellRef.current = coords;
     }
   };
 
   const handleCanvasMouseMove = (e: React.MouseEvent<HTMLCanvasElement>) => {
-    if (!isDrawing) return;
+    if (!isDrawingRef.current) return;
     const coords = getCellCoords(e);
-    if (coords) {
+    if (coords && (!lastCellRef.current || lastCellRef.current[0] !== coords[0] || lastCellRef.current[1] !== coords[1])) {
       toggleCell(coords[0], coords[1]);
+      lastCellRef.current = coords;
     }
   };
 
   const handleCanvasMouseUp = () => {
-    setIsDrawing(false);
+    isDrawingRef.current = false;
+    lastCellRef.current = null;
   };
 
   const handleCanvasWheel = (e: React.WheelEvent<HTMLCanvasElement>) => {
