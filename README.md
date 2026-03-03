@@ -1,4 +1,4 @@
-## Cellular Automation
+## Conway's Game of Life || Cellular Automation
 
 # Installation
 
