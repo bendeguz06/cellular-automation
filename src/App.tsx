@@ -253,6 +253,7 @@ export function App() {
   const handleRevert = () => {
     if (historyRef.current.length > 0) {
       gridRef.current = historyRef.current.pop()!;
+      setGeneration((prev) => prev - 1);
       drawGrid();
     }
   };
