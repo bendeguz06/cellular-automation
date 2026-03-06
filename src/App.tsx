@@ -23,6 +23,7 @@ export function App() {
   const [isRunning, setIsRunning] = useState(false);
   const [fps, setFps] = useState(10);
   const [isErasing, setIsErasing] = useState(false);
+  const [generation, setGeneration] = useState(0);
 
   // Calculate effective cell size based on grid dimensions, canvas size, and zoom
   const getEffectiveCellSize = (): number => {
@@ -245,6 +246,7 @@ export function App() {
       .fill(null)
       .map(() => Array(cols).fill(0));
     historyRef.current = [];
+    setGeneration(0);
     drawGrid();
   };
 
@@ -335,6 +337,7 @@ export function App() {
     const id = setInterval(() => {
       saveToHistory();
       computeNextGen();
+      setGeneration((prev) => prev + 1);
     }, interval);
     return () => clearInterval(id);
   }, [isRunning, fps, zoom, offsetX, offsetY]);
@@ -552,6 +555,17 @@ export function App() {
             }}
           />
         </label>
+
+        <span
+          style={{
+            marginLeft: "auto",
+            fontWeight: "600",
+            fontSize: "14px",
+            color: "#F8FF99",
+          }}
+        >
+          Generation: {generation}
+        </span>
       </div>
 
       <canvas
